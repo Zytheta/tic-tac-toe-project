@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chris's Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" href="./images/tac_tic_toe_icon.svg" type="image/x-icon">
+    <script defer src="./script.js"></script>
+    <script defer src="./dependency-files/node_modules/mustache/mustache.js"></script>
+</head>
+<body>
+<header><h1>Welcome to Chris's Tic-Tac-Toe Board!</h1></header>
+<main>
+    <div class="score-tracker-module" id="score-tracker-module">
+        <div id="player-name">Player:</div>
+        <button type="button" id="change-name">Change Name?</button>
+        <div id="score-header">Wins / Losses</div>
+        <div id="score-body">0 : 0</div>
+        <div id="score-win-percent">Win rate:</div>
+        <button type="button" id="new-game">New Game?</button>
+    </div>
+    <div class="gameboard-module" id="gameboard-module">
+        <div class="board-piece" id="piece1"></div>
+        <div class="board-piece" id="piece2"></div>
+        <div class="board-piece" id="piece3"></div>
+        <div class="board-piece" id="piece4"></div>
+        <div class="board-piece" id="piece5"></div>
+        <div class="board-piece" id="piece6"></div>
+        <div class="board-piece" id="piece7"></div>
+        <div class="board-piece" id="piece8"></div>
+        <div class="board-piece" id="piece9"></div>
+    </div>
+</main>
+<footer><h6>Thanks to the Odin Project for designing this activity!</h6></footer>
+</body>
+</html>
