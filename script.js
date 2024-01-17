@@ -1,45 +1,64 @@
 // Object literal constructor
 
+// Player name and scoreboard
 ;(function () {
-  const ticTacToe = {
+  const scoreBoard = {
     player: 'Chris',
-    playershape: 'X',
+    playerShape: 'X',
     computerName: 'Computer',
     computerShape: 'O',
+    wins: 0,
+    losses: 0,
+    winPercent: 0,
 
     init: function () {
       this.cacheDom()
+      this.render()
       this.setUpEventListeners()
-      this.getName()
     },
 
     cacheDom: function () {
+      this.scoreModule = document.getElementById('score-tracker-module')
+      this.template = document.getElementById('scoreboard-template').innerHTML
       this.playerName = document.getElementById('player-name')
-      this.newGameButton = document.getElementById('new-game')
-      this.changeNameButton = document.getElementById('change-name')
+      this.score = document.getElementById('score-body')
+      this.winPercent = document.getElementById('score-win-percent')
     },
 
     setUpEventListeners: function () {
-      // this.newGameButton.addEventListener('click', this.newGame.bind(this))
+      console.log('Setting up event listeners...')
+
+      this.changeNameButton = document.getElementById('change-name')
+      console.log('Change Name Button:', this.changeNameButton)
+
       this.changeNameButton.addEventListener(
         'click',
         this.changeName.bind(this)
       )
     },
 
-    getName: function () {
-      this.playerName.textContent = `Player: ${this.player}`
-    },
-
     changeName: function () {
       const newName = prompt('What is your name?') || 'Anonymous'
       this.player = newName
-      this.getName()
-    }
+      this.render()
+      this.setUpEventListeners()
+    },
 
-    // render: function () {
-    // },
+    render: function () {
+      const data = {
+        player: this.player,
+        wins: this.wins,
+        losses: this.losses,
+        winPercent: this.winPercent
+      }
+
+      console.log('Rendering...')
+      console.log('Template:', this.template)
+      console.log('Data:', data)
+
+      this.scoreModule.innerHTML = Mustache.render(this.template, data)
+    }
   }
 
-  ticTacToe.init()
+  scoreBoard.init()
 })()
