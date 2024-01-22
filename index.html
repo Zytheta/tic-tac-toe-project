@@ -23,9 +23,10 @@
       <div class="score-tracker-module" id="score-tracker-module">
         <template type="text/template" id="scoreboard-template">
           <div id="player-name">Player: {{ player }}</div>
+          <div id="computer-name">Computer: {{ computer }}</div>
           <button type="button" id="change-name">Change Name?</button>
-          <div id="score-header">Wins / Losses</div>
-          <div id="score-body">{{ wins }} : {{ losses }}</div>
+          <div id="score-header">Wins / Losses / Ties</div>
+          <div id="score-body">{{ wins }} : {{ losses }} : {{ ties }}</div>
           <div id="score-win-percent">Win rate: {{ winPercent }}</div>
           <button type="button" id="new-game">New Game?</button>
         </template>

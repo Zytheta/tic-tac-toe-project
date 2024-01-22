@@ -187,6 +187,11 @@ main {
   background-color: lightskyblue;
 }
 
+.board-piece.disable-hover {
+  pointer-events: none; /* Disable mouse events */
+  opacity: 0.5; /* Reduce opacity to visually indicate it's disabled */
+}
+
 h1 {
   font-size: calc(var(--font-size) * 2.5);
 }
