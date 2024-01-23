@@ -10,6 +10,7 @@ const scoreBoard = (function () {
     wins: 0,
     losses: 0,
     ties: 0,
+    turn: "Player's Turn",
     board: [
       ['', '', ''],
       ['', '', ''],
@@ -29,11 +30,10 @@ const scoreBoard = (function () {
       this.computerName = document.getElementById('computer-name')
       this.score = document.getElementById('score-body')
       this.winPercent = document.getElementById('score-win-percent')
+      this.turnOrder = document.getElementById('turn')
     },
 
     setUpEventListeners: function () {
-      // console.log('Setting up event listeners...')
-
       this.changeNameButton = document.getElementById('change-name')
       // console.log('Change Name Button:', this.changeNameButton)
 
@@ -41,6 +41,10 @@ const scoreBoard = (function () {
         'click',
         this.changeName.bind(this)
       )
+
+      this.newGameButton = document.getElementById('new-game')
+
+      this.newGameButton.addEventListener('click', this.resetBoard.bind(this))
 
       this.boardPieces = []
       this.clickHandler = this.handlePieceClick.bind(this)
@@ -55,15 +59,40 @@ const scoreBoard = (function () {
         }, this)
     },
 
+    resetEventListeners: function () {
+      // Remove existing event listeners
+      this.changeNameButton.removeEventListener(
+        'click',
+        this.changeName.bind(this)
+      )
+      this.newGameButton.removeEventListener(
+        'click',
+        this.resetBoard.bind(this)
+      )
+
+      // Set up new event listeners
+
+      this.changeNameButton = document.getElementById('change-name')
+
+      this.changeNameButton.addEventListener(
+        'click',
+        this.changeName.bind(this)
+      )
+
+      this.newGameButton = document.getElementById('new-game')
+
+      this.newGameButton.addEventListener('click', this.resetBoard.bind(this))
+    },
+
     changeName: function () {
       const newName = prompt('What is your name?') || 'Anonymous'
       this.player = newName
       this.render()
-      this.setUpEventListeners()
+      this.resetEventListeners()
     },
 
     playerChoice: function (index) {
-      console.log('Player chose piece', index)
+      // console.log('Player chose piece', index)
 
       // Get the index of the piece
       const chosenPiece = this.boardPieces[index]
@@ -98,7 +127,7 @@ const scoreBoard = (function () {
       const row = Math.floor(index / 3)
       const col = index % 3
       this.board[row][col] = shape
-      console.log(this.board)
+      // console.log(this.board)
     },
 
     checkWinner: function (board) {
@@ -112,7 +141,9 @@ const scoreBoard = (function () {
           console.log(`${this.player} wins in row ${i}.`)
           this.wins++
           this.freezeBoard()
-          return this.render()
+          this.playerWinMessage('Player wins!')
+          this.render()
+          return this.resetEventListeners()
         }
 
         // Check columns
@@ -124,7 +155,9 @@ const scoreBoard = (function () {
           console.log(`${this.player} wins in column ${i}.`)
           this.wins++
           this.freezeBoard()
-          return this.render()
+          this.playerWinMessage('Player wins!')
+          this.render()
+          return this.resetEventListeners()
         }
 
         // Check diagonals
@@ -136,7 +169,9 @@ const scoreBoard = (function () {
           console.log(`${this.player} wins with the main diagonal.`)
           this.wins++
           this.freezeBoard()
-          return this.render()
+          this.playerWinMessage('Player wins!')
+          this.render()
+          return this.resetEventListeners()
         }
 
         if (
@@ -147,7 +182,9 @@ const scoreBoard = (function () {
           console.log(`${this.player} wins with the anti-diagonal.`)
           this.wins++
           this.freezeBoard()
-          return this.render()
+          this.playerWinMessage('Player wins!')
+          this.render()
+          return this.resetEventListeners()
         }
       }
 
@@ -156,7 +193,9 @@ const scoreBoard = (function () {
         console.log(`Tie, all pieces filled.`)
         this.ties++
         this.freezeBoard()
-        return this.render()
+        this.tieMessage("It's a tie!")
+        this.render()
+        return this.resetEventListeners()
       }
 
       // No winner yet, proceed with computer's turn
@@ -174,7 +213,9 @@ const scoreBoard = (function () {
           console.log(`Computer wins in row ${i}.`)
           this.losses++
           this.freezeBoard()
-          return this.render()
+          this.computerWinsMessage('The computer wins!')
+          this.render()
+          return this.resetEventListeners()
         }
 
         // Check columns
@@ -186,7 +227,9 @@ const scoreBoard = (function () {
           console.log(`Computer wins in column ${i}.`)
           this.losses++
           this.freezeBoard()
-          return this.render()
+          this.computerWinsMessage('The computer wins!')
+          this.render()
+          return this.resetEventListeners()
         }
 
         // Check diagonals
@@ -198,7 +241,9 @@ const scoreBoard = (function () {
           console.log(`Computer wins with the main diagonal.`)
           this.losses++
           this.freezeBoard()
-          return this.render()
+          this.computerWinsMessage('The computer wins!')
+          this.render()
+          return this.resetEventListeners()
         }
 
         if (
@@ -209,10 +254,24 @@ const scoreBoard = (function () {
           console.log(`Computer wins with the anti-diagonal.`)
           this.losses++
           this.freezeBoard()
-          return this.render()
+          this.computerWinsMessage('The computer wins!')
+          this.render()
+          return this.resetEventListeners()
         }
       }
       return null
+    },
+
+    playerWinMessage: function (message) {
+      this.turn = message
+    },
+
+    tieMessage: function (message) {
+      this.turn = message
+    },
+
+    computerWinsMessage: function (message) {
+      this.turn = message
     },
 
     isBoardFull: function (board) {
@@ -227,9 +286,11 @@ const scoreBoard = (function () {
       return true // All cells are filled, indicating a tie
     },
 
-    freezeBoard: function (board) {
+    freezeBoard: function () {
+      const clickHandlerBound = this.clickHandler.bind(this)
+
       this.boardPieces.forEach(function (piece) {
-        piece.removeEventListener('click', this.clickHandler)
+        piece.removeEventListener('click', this.clickHandlerBound)
         piece.classList.add('disable-hover')
       }, this)
     },
@@ -252,9 +313,9 @@ const scoreBoard = (function () {
         this.boardPieces[chosenPieceIndices.row * 3 + chosenPieceIndices.col]
       chosenPiece.appendChild(blueX)
 
-      console.log(
-        `Computer chose row ${chosenPieceIndices.row} and column ${chosenPieceIndices.col}.`
-      )
+      // console.log(
+      //   `Computer chose row ${chosenPieceIndices.row} and column ${chosenPieceIndices.col}.`
+      // )
 
       // Remove the click event listener from the chosen board piece
       chosenPiece.removeEventListener('click', this.clickHandler)
@@ -304,13 +365,40 @@ const scoreBoard = (function () {
     },
 
     getBoardPieces: function () {
-      return console.log(this.boardPieces)
+      return null
+      // return console.log(this.boardPieces)
+    },
+
+    resetBoard: function () {
+      // Clear the board array
+      this.board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ]
+
+      // Remove images from board pieces
+      this.boardPieces.forEach(function (piece) {
+        piece.innerHTML = ''
+        piece.classList.remove('disable-hover')
+        piece.addEventListener('click', this.clickHandler)
+      }, this)
+
+      // Reset turn message
+      this.turn = "Player's Turn"
+
+      // Render the updated board
+      this.render()
+      this.resetEventListeners()
     },
 
     render: function () {
       const totalGames = this.wins + this.losses + this.ties
 
-      const winPercent = totalGames === 0 ? 0 : this.wins / totalGames
+      const winPercent =
+        totalGames === 0
+          ? '0%'
+          : ((this.wins / totalGames) * 100).toFixed(2) + '%'
 
       const data = {
         player: this.player,
@@ -318,7 +406,8 @@ const scoreBoard = (function () {
         wins: this.wins,
         losses: this.losses,
         ties: this.ties,
-        winPercent: winPercent
+        winPercent: winPercent,
+        turn: this.turn
       }
 
       // console.log('Rendering...')
@@ -331,5 +420,12 @@ const scoreBoard = (function () {
 
   scoreBoard.init()
 
-  return scoreBoard
+  return {
+    changeName: function () {
+      scoreBoard.changeName()
+    },
+    playerChoice: function (index) {
+      scoreBoard.playerChoice(index)
+    }
+  }
 })()

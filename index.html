@@ -14,7 +14,7 @@
       defer
       src="./dependency-files/node_modules/mustache/mustache.js"
     ></script>
-    <script defer src="./pubsub.js"></script>
+    <!-- <script defer src="./pubsub.js"></script> -->
     <script defer src="./script.js"></script>
   </head>
   <body>
@@ -28,7 +28,8 @@
           <div id="score-header">Wins / Losses / Ties</div>
           <div id="score-body">{{ wins }} : {{ losses }} : {{ ties }}</div>
           <div id="score-win-percent">Win rate: {{ winPercent }}</div>
-          <button type="button" id="new-game">New Game?</button>
+          <button type="button" id="new-game">New Game</button>
+          <div id="turn">{{ turn }}</div>
         </template>
       </div>
       <div class="gameboard-module" id="gameboard-module">
