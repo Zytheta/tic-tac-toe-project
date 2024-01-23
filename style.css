@@ -142,7 +142,7 @@ table {
 }
 
 header {
-  margin: 1rem;
+  margin: 0.5rem;
 }
 
 body {
@@ -165,7 +165,7 @@ main {
 }
 
 #score-tracker-module {
-  margin: 1rem;
+  margin: 0.5rem;
 }
 
 #gameboard-module {
@@ -173,7 +173,7 @@ main {
   border: 1px solid #000;
   width: 66vw;
   height: 66vh;
-  margin: 1rem;
+  margin: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;

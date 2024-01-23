@@ -141,7 +141,7 @@ const scoreBoard = (function () {
           console.log(`${this.player} wins in row ${i}.`)
           this.wins++
           this.freezeBoard()
-          this.playerWinMessage('Player wins!')
+          this.playerWinMessage(`${this.player} wins!`)
           this.render()
           return this.resetEventListeners()
         }
@@ -155,7 +155,7 @@ const scoreBoard = (function () {
           console.log(`${this.player} wins in column ${i}.`)
           this.wins++
           this.freezeBoard()
-          this.playerWinMessage('Player wins!')
+          this.playerWinMessage(`${this.player} wins!`)
           this.render()
           return this.resetEventListeners()
         }
@@ -166,10 +166,10 @@ const scoreBoard = (function () {
           this.board[0][0] === this.board[1][1] &&
           this.board[1][1] === this.board[2][2]
         ) {
-          console.log(`${this.player} wins with the main diagonal.`)
+          console.log(`${this.player} wins with the main diagonal!`)
           this.wins++
           this.freezeBoard()
-          this.playerWinMessage('Player wins!')
+          this.playerWinMessage(`${this.player} wins!`)
           this.render()
           return this.resetEventListeners()
         }
@@ -179,10 +179,10 @@ const scoreBoard = (function () {
           this.board[0][2] === this.board[1][1] &&
           this.board[1][1] === this.board[2][0]
         ) {
-          console.log(`${this.player} wins with the anti-diagonal.`)
+          console.log(`${this.player} wins with the reverse diagonal!`)
           this.wins++
           this.freezeBoard()
-          this.playerWinMessage('Player wins!')
+          this.playerWinMessage(`${this.player} wins!`)
           this.render()
           return this.resetEventListeners()
         }
@@ -426,6 +426,9 @@ const scoreBoard = (function () {
     },
     playerChoice: function (index) {
       scoreBoard.playerChoice(index)
+    },
+    resetBoard: function () {
+      scoreBoard.resetBoard()
     }
   }
 })()
